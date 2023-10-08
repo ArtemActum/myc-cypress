@@ -7,6 +7,8 @@ export default defineConfig({
   e2e: {
     baseUrl: "https://integration.christies.com/",
     specPattern: "**/*.feature",
+    viewportWidth: 1920,
+    viewportHeight: 1080,
     async setupNodeEvents(
       on: Cypress.PluginEvents,
       config: Cypress.PluginConfigOptions
