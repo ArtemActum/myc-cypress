@@ -6,7 +6,7 @@ import createEsbuildPlugin from "@badeball/cypress-cucumber-preprocessor/esbuild
 export default defineConfig({
   e2e: {
     baseUrl: "https://integration.christies.com/",
-    specPattern: "**/*.feature",
+    specPattern: "**/e2e/*",
     viewportWidth: 1920,
     viewportHeight: 1080,
     async setupNodeEvents(
