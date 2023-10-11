@@ -1,9 +1,9 @@
 import { Given, When, Then, DataTable } from '@badeball/cypress-cucumber-preprocessor'
-import myChrisities from '../page-objects/myChristies.page'
+import MyChrisities from '../page-objects/myChristies.page'
 import Base from '../page-objects/base.page'
 
 const basePage = new Base()
-const myChrisitiesPage = new myChrisities()
+const myChrisities = new MyChrisities()
 
 Given('I open Homepage.', () => {
     cy.visit('/').then(() => {
@@ -11,15 +11,10 @@ Given('I open Homepage.', () => {
     })
   })
 
-  When('I login to my account.', (dataTable: DataTable) => {
-    dataTable.hashes().forEach((element) => {
-    basePage.login(element.email, element.validpassword);
-    });
+  When('I login to my account with valid {string} and {string}.', (email?: string, validpassword?: string) => {
+    basePage.login(email, validpassword)
     basePage.clickMyAccount()
     cy.on('uncaught:exception', (err, runnable) => {
-      console.log(`Uncaught Exception Thrown. ${err.name}`)
-      console.log(`Uncaught Exception Thrown. ${runnable.body}`)
-    //   returning false here prevents Cypress from failing the test
       return false
     })
   })
@@ -31,13 +26,13 @@ Given('I open Homepage.', () => {
     }
   )
 
-  Then('Check name user and check url.', () => {
-    //myChrisities.checkNameUser()
+  Then('Check {string} user and check url.', (name?: string) => {
+    myChrisities.checkNameUser(name)
     cy.url().should('include', '/mychristies/activities')
   })
   
   Then('I get error message that credentials did not match our records.', () => {
-    //myChrisities.displayErrorMessage()
+    basePage.displayErrorMessage()
   })
   
 

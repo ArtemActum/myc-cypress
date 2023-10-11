@@ -12,6 +12,7 @@ passwdInput = '#password'
 ErrorMessage =
 '.align-items-center.d-inline-flex.mb-5 > .chr-color-red-alert.chr-label.content-zone'
 signInModalWindowBtn = 'button.chr-button.chr-button--primary.chr-button--lg.chr-button--light.chr-button--full-width'
+
 // Page Object Methods
 
 open(path) {

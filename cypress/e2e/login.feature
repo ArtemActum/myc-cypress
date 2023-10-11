@@ -5,10 +5,10 @@ Feature: Login
 
     Scenario: Check to login with valid credentials
         When I login to my account with valid "<email>" and "<validpassword>".
-        Then Check name user and check url.
+        Then Check "<name>" user and check url.
         Examples:
-            | email                     | validpassword |
-            | int-1306202-1@yopmail.com | Zaqxsw111     |
+            | email                     | validpassword |   name          |
+            | int-1306202-1@yopmail.com | Zaqxsw111     |  Zoe Angela     |
 
     Scenario: Check to login with invalid credentials
         When I login to my account with invalid "<username>" and "<password>".
