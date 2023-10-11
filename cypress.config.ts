@@ -7,6 +7,7 @@ export default defineConfig({
   e2e: {
     baseUrl: "https://integration.christies.com/",
     specPattern: "**/e2e/*",
+    defaultCommandTimeout: 15000,
     viewportWidth: 1920,
     viewportHeight: 1080,
     async setupNodeEvents(
