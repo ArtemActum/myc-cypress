@@ -41,6 +41,10 @@ public englishLink() {
   return cy.get('[lang="en"]')
 }
 
+public searchInput() {
+  return cy.get('input.chr-body')
+}
+
 // Page Object Methods
 
 open(path) {
@@ -94,4 +98,7 @@ setCookie() {
     }
   }
 
+  addTextToSearchInput(text) {
+    this.searchInput().type(`${text} {enter}`)
+  }
 }
