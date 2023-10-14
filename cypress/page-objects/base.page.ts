@@ -1,17 +1,45 @@
 export default class BasePage {
 // Locators
-tradChineseLink = '[lang="zh"]'
-simpleChineseLink = '[lang="zh-cn"]'
-englishLink = '[lang="en"]'
-loginBtn = '.chr-header__user-zone .chr-button__text'
-signInHomePageBtn = 'button.chr-button.chr-button--light.chr-button--primary.chr-button--sm .chr-button__text '
-myAccountBtn = '.chr-button.chr-button--link.chr-button--lg.chr-button--light.chr-button--icon-left'
-//myAccountBtn = 'a.chr-button.chr-button--link.chr-button--lg.chr-button--light.chr-button--icon-left .chr-button__text.chr-action'
-userInput = '#username'
-passwdInput = '#password'
-ErrorMessage =
-'.align-items-center.d-inline-flex.mb-5 > .chr-color-red-alert.chr-label.content-zone'
-signInModalWindowBtn = 'button.chr-button.chr-button--primary.chr-button--lg.chr-button--light.chr-button--full-width'
+
+public loginBtn() {
+  return cy.get('.chr-header__user-zone .chr-button__text')
+}
+
+public signInHomePageBtn() {
+  return cy.get('button.chr-button.chr-button--light.chr-button--primary.chr-button--sm .chr-button__text ')
+}
+
+public myAccountBtn() {
+  return cy.get('.chr-button.chr-button--link.chr-button--lg.chr-button--light.chr-button--icon-left')
+}
+
+public userInput() {
+  return cy.get('#username')
+}
+
+public passwdInput() {
+  return cy.get('#password')
+}
+
+public signInModalWindowBtn() {
+  return cy.get('button.chr-button.chr-button--primary.chr-button--lg.chr-button--light.chr-button--full-width')
+}
+
+public ErrorMessage() {
+  return cy.get('.align-items-center.d-inline-flex.mb-5 > .chr-color-red-alert.chr-label.content-zone')
+}
+
+public tradChineseLink() {
+  return cy.get('[lang="zh"]')
+}
+
+public simpleChineseLink() {
+  return cy.get('[lang="zh-cn"]')
+}
+
+public englishLink() {
+  return cy.get('[lang="en"]')
+}
 
 // Page Object Methods
 
@@ -31,19 +59,19 @@ setCookie() {
   }
 
   login(loginUsername, loginPassword) {
-    cy.get(this.signInHomePageBtn).click()
-    cy.get(this.userInput).click().type(loginUsername, {force: false, delay: 0})
-    cy.get(this.passwdInput).click().type(loginPassword, {force: false, delay: 0})
-    cy.get(this.signInModalWindowBtn).click()
+    this.signInHomePageBtn().click()
+    this.userInput().click().type(loginUsername, {force: false, delay: 0})
+    this.passwdInput().click().type(loginPassword, {force: false, delay: 0})
+    this.signInModalWindowBtn().click()
   }
 
 
   clickMyAccount() {
-    cy.get(this.myAccountBtn).click()
+    this.myAccountBtn().click()
   }
 
   displayErrorMessage() {
-    cy.get(this.ErrorMessage).should(
+    this.ErrorMessage().should(
       'contain.text',
       'The email address and password that you entered did not match our records.',
     )
