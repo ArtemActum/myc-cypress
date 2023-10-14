@@ -76,4 +76,22 @@ setCookie() {
       'The email address and password that you entered did not match our records.',
     )
   }
+
+  switchLanguageTo(language) {
+    switch (language) {
+      case 'zh':
+        this.tradChineseLink().click()
+        break
+      case 'zh-cn':
+        this.simpleChineseLink().click()
+        break
+      case 'en':
+        this.tradChineseLink().click()
+        this.englishLink().click()
+        break
+      default:
+        break
+    }
+  }
+
 }
