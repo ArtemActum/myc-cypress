@@ -1,9 +1,9 @@
 {
-    "compilerOptions": {
-      "target": "es5",
-      "lib": ["es5", "dom"],
-      "types": ["cypress", "node"],
-      "esModuleInterop": true // It is fixed error 'TypeError: (0 , cypress_esbuild_preprocessor_1.default) is not a function'
-    },
-    "include": ["**/*.ts"]
+	"compilerOptions": {
+		"target": "es5",
+		"lib": ["es5", "dom"],
+		"types": ["cypress", "node"],
+		"esModuleInterop": true // It is fixed error 'TypeError: (0 , cypress_esbuild_preprocessor_1.default) is not a function'
+	},
+	"include": ["**/*.ts"]
 }
