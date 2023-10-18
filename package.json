@@ -1,26 +1,33 @@
 {
-  "name": "myc-cypress",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@badeball/cypress-cucumber-preprocessor": "18.0.6",
-    "@bahmutov/cypress-esbuild-preprocessor": "2.2.0",
-    "cypress": "13.3.0",
-    "prettier": "3.0.3",
-    "typescript": "5.2.2"
-  },
-"cypress-cucumber-preprocessor": {
-  "stepDefinitions": [
-    "cypress/e2e/[filepath]/**/*.{js,ts}",
-    "cypress/e2e/[filepath].{js,ts}",
-    "cypress/step-definitions/*.{js,ts}"
-  ]
-}
-
+	"name": "myc-cypress",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"cy:open": "cypress open",
+		"test:mobile-small": "cypress open --config viewportWidth=375 --config viewportHeight=667",
+		"test:mobile-large": "cypress open --config viewportWidth=768 --config viewportHeight=1024",
+		"test:tablet": "cypress open --config viewportWidth=1024 --config viewportHeight=768",
+		"test:desktop": "cypress open --config viewportWidth=1920 --config viewportHeight=1080",
+		"lint": "eslint --fix --ext .js,.jsx ."
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"@badeball/cypress-cucumber-preprocessor": "18.0.6",
+		"@bahmutov/cypress-esbuild-preprocessor": "2.2.0",
+		"@typescript-eslint/eslint-plugin": "6.8.0",
+		"@typescript-eslint/parser": "6.8.0",
+		"cypress": "13.3.0",
+		"eslint": "8.51.0",
+		"prettier": "3.0.3",
+		"typescript": "5.2.2"
+	},
+	"cypress-cucumber-preprocessor": {
+		"stepDefinitions": [
+			"cypress/e2e/[filepath]/**/*.{js,ts}",
+			"cypress/e2e/[filepath].{js,ts}",
+			"cypress/step-definitions/*.{js,ts}"
+		]
+	}
 }
