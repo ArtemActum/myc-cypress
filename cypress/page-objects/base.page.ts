@@ -1,104 +1,123 @@
 export default class BasePage {
-// Locators
+	// Locators
 
-public loginBtn() {
-  return cy.get('.chr-header__user-zone .chr-button__text')
-}
+	public loginBtn() {
+		return cy.get('.chr-header__user-zone .chr-button__text')
+	}
 
-public signInHomePageBtn() {
-  return cy.get('button.chr-button.chr-button--light.chr-button--primary.chr-button--sm .chr-button__text ')
-}
+	public signInHomePageBtn() {
+		return cy.get(
+			'button.chr-button.chr-button--light.chr-button--primary.chr-button--sm .chr-button__text ',
+		)
+	}
 
-public myAccountBtn() {
-  return cy.get('.chr-button.chr-button--link.chr-button--lg.chr-button--light.chr-button--icon-left')
-}
+	public myAccountBtn() {
+		return cy.get(
+			'.chr-button.chr-button--link.chr-button--lg.chr-button--light.chr-button--icon-left',
+		)
+	}
 
-public userInput() {
-  return cy.get('#username')
-}
+	public userInput() {
+		return cy.get('#username')
+	}
 
-public passwdInput() {
-  return cy.get('#password')
-}
+	public passwdInput() {
+		return cy.get('#password')
+	}
 
-public signInModalWindowBtn() {
-  return cy.get('button.chr-button.chr-button--primary.chr-button--lg.chr-button--light.chr-button--full-width')
-}
+	public signInModalWindowBtn() {
+		return cy.get(
+			'button.chr-button.chr-button--primary.chr-button--lg.chr-button--light.chr-button--full-width',
+		)
+	}
 
-public ErrorMessage() {
-  return cy.get('.align-items-center.d-inline-flex.mb-5 > .chr-color-red-alert.chr-label.content-zone')
-}
+	public ErrorMessage() {
+		return cy.get(
+			'.align-items-center.d-inline-flex.mb-5 > .chr-color-red-alert.chr-label.content-zone',
+		)
+	}
 
-public tradChineseLink() {
-  return cy.get('[lang="zh"]')
-}
+	public tradChineseLink() {
+		return cy.get('[lang="zh"]')
+	}
 
-public simpleChineseLink() {
-  return cy.get('[lang="zh-cn"]')
-}
+	public simpleChineseLink() {
+		return cy.get('[lang="zh-cn"]')
+	}
 
-public englishLink() {
-  return cy.get('[lang="en"]')
-}
+	public englishLink() {
+		return cy.get('[lang="en"]')
+	}
 
-public searchInput() {
-  return cy.get('input.chr-body')
-}
+	public searchInput() {
+		return cy.get('input.chr-body')
+	}
 
-// Page Object Methods
+	public searchResult() {
+		return cy.get('span.chr-search-header__keyword')
+	}
 
-open(path) {
-    cy.visit(path).then(() => {
-      this.setCookie()
-    })
-  }
+	public searchButton() {
+		return cy.get(
+			'.chr-autocomplete-input__wrapper > chr-button.hydrated > .chr-button > .hydrated > .chr-icon__wrapper > .chr-icon',
+		)
+	}
 
-setCookie() {
-    const date = new Date().toISOString()
-    console.log(window.location)
-    cy.setCookie('FastSignup', 'FastSignupCreated')
-    cy.setCookie('OptanonAlertBoxClosed', date).then(() => {
-      cy.reload()
-    })
-  }
+	// Page Object Methods
 
-  login(loginUsername, loginPassword) {
-    this.signInHomePageBtn().click()
-    this.userInput().click().type(loginUsername, {force: false, delay: 0})
-    this.passwdInput().click().type(loginPassword, {force: false, delay: 0})
-    this.signInModalWindowBtn().click()
-  }
+	open(path) {
+		cy.visit(path).then(() => {
+			this.setCookie()
+		})
+	}
 
+	setCookie() {
+		const date = new Date().toISOString()
+		console.log(window.location)
+		cy.setCookie('FastSignup', 'FastSignupCreated')
+		cy.setCookie('OptanonAlertBoxClosed', date).then(() => {
+			cy.reload()
+		})
+	}
 
-  clickMyAccount() {
-    this.myAccountBtn().click()
-  }
+	login(loginUsername, loginPassword) {
+		this.signInHomePageBtn().click()
+		this.userInput().click().type(loginUsername, { force: false, delay: 0 })
+		this.passwdInput()
+			.click()
+			.type(loginPassword, { force: false, delay: 0 })
+		this.signInModalWindowBtn().click()
+	}
 
-  displayErrorMessage() {
-    this.ErrorMessage().should(
-      'contain.text',
-      'The email address and password that you entered did not match our records.',
-    )
-  }
+	clickMyAccount() {
+		this.myAccountBtn().click()
+	}
 
-  switchLanguageTo(language) {
-    switch (language) {
-      case 'zh':
-        this.tradChineseLink().click()
-        break
-      case 'zh-cn':
-        this.simpleChineseLink().click()
-        break
-      case 'en':
-        this.tradChineseLink().click()
-        this.englishLink().click()
-        break
-      default:
-        break
-    }
-  }
+	displayErrorMessage() {
+		this.ErrorMessage().should(
+			'contain.text',
+			'The email address and password that you entered did not match our records.',
+		)
+	}
 
-  addTextToSearchInput(text) {
-    this.searchInput().type(`${text} {enter}`)
-  }
+	switchLanguageTo(language) {
+		switch (language) {
+			case 'zh':
+				this.tradChineseLink().click()
+				break
+			case 'zh-cn':
+				this.simpleChineseLink().click()
+				break
+			case 'en':
+				this.tradChineseLink().click()
+				this.englishLink().click()
+				break
+			default:
+				break
+		}
+	}
+
+	addTextToSearchInput(text) {
+		this.searchInput().type(`${text} {enter}`)
+	}
 }
