@@ -44,4 +44,10 @@ export default class MyChristies extends Base {
 	public accountNumberIncludes(account: number) {
 		this.accountDropDown().should('include.text', account)
 	}
+
+	public accountNumberNotIncludes(account: number) {
+		this.accountDropDown()
+			.should('not.include.text', account)
+			.and('not.have.id', 'accountDropdown')
+	}
 }
