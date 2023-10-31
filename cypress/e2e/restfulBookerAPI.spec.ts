@@ -1,6 +1,12 @@
+import { schemaGetBooking } from '../support/constants/apis'
+import Ajv from 'ajv'
+
 describe('Restful Booker API Tests', () => {
 	let authToken: string
 	let bookingId: number
+	//import Ajv = require('ajv')
+
+	const ajv = new Ajv()
 
 	before(() => {
 		cy.request({
@@ -63,6 +69,7 @@ describe('Restful Booker API Tests', () => {
 			)
 			expect(response.body.booking.additionalneeds).to.equal('Breakfast')
 			expect(response.body).to.have.property('bookingid')
+
 			bookingId = response.body.bookingid
 		})
 	})
@@ -91,6 +98,9 @@ describe('Restful Booker API Tests', () => {
 			expect(response.status).to.equal(200)
 			expect(response.body.firstname).to.eq('John')
 			expect(response.body.lastname).to.eq('Doe')
+			const validate = ajv.compile(schemaGetBooking)
+			const isValid = validate(response.body)
+			expect(isValid).to.be.true
 		})
 	})
 
