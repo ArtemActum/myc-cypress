@@ -1,15 +1,13 @@
 import { Then, When } from '@badeball/cypress-cucumber-preprocessor'
 import MyChrisities from '../page-objects/myChristies.page'
-import Base from '../page-objects/base.page'
 
-const basePage = new Base()
 const myChrisities = new MyChrisities()
 
 When(
 	'I login to my account profile has not been set up as a transactional account {string} and {string}.',
 	(email?: string, validpassword?: string) => {
-		basePage.login(email, validpassword)
-		basePage.clickMyAccount()
+		myChrisities.login(email, validpassword)
+		myChrisities.clickMyAccount()
 		cy.on('uncaught:exception', () => {
 			return false
 		})

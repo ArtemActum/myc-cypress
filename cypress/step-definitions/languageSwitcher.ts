@@ -1,10 +1,10 @@
 import { When, Then } from '@badeball/cypress-cucumber-preprocessor'
-import Base from '../page-objects/base.page'
+import MyChrisities from '../page-objects/myChristies.page'
 
-const basePage = new Base()
+const myChrisities = new MyChrisities()
 
 When('I Switch {string}.', (languages?: string) => {
-	basePage.switchLanguageTo(languages)
+	myChrisities.switchLanguageTo(languages)
 })
 
 Then('Url should include {string}.', (attribute?: string) => {
