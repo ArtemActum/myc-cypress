@@ -31,7 +31,7 @@ export default class BasePage {
 		)
 	}
 
-	public ErrorMessage() {
+	public errorMessage() {
 		return cy.get(
 			'.align-items-center.d-inline-flex.mb-5 > .chr-color-red-alert.chr-label.content-zone',
 		)
@@ -94,7 +94,7 @@ export default class BasePage {
 	}
 
 	displayErrorMessage() {
-		this.ErrorMessage().should(
+		this.errorMessage().should(
 			'contain.text',
 			'The email address and password that you entered did not match our records.',
 		)
