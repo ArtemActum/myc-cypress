@@ -25,6 +25,12 @@ export default class MyChristies extends Base {
 		return cy.get('#ctl00_lblUser')
 	}
 
+	public buyingSection() {
+		return cy.get(
+			'.myc-header__nav > :nth-child(1) > .chr-page-nav__link > .chr-action',
+		)
+	}
+
 	public myAccountProgressBarTextIncludes(expectedNumber: number) {
 		this.myAccountProgressBarText().should('include.text', expectedNumber)
 	}
@@ -49,5 +55,9 @@ export default class MyChristies extends Base {
 		this.accountDropDown()
 			.should('not.include.text')
 			.and('not.have.id', 'accountDropdown')
+	}
+
+	public clickBuyingSection() {
+		this.buyingSection().click()
 	}
 }
