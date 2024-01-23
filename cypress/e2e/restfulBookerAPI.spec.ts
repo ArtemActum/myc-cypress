@@ -1,11 +1,10 @@
 import Ajv from 'ajv'
-import client from '../API/client'
-import ApiClient from '../API/client'
 import NewApiClient from '../API/client new'
 import {
 	newBooking,
 	updatedBookingData,
 	partialUpdatedBookingData,
+	auth,
 } from '../API/testData'
 import {
 	schemaCreateBooking,
@@ -17,20 +16,74 @@ describe('Restful Booker API Tests', () => {
 	let authToken: string
 	let bookingId: number
 
-	function baseUrlAPI(path) {
-		return `https://restful-booker.herokuapp.com${path}`
-	}
-
 	const ajv = new Ajv()
 
 	it('API restful booker collection', () => {
 		//status: In progress
+		NewApiClient.createToken(auth).then(function (response) {
+			expect(response.status).to.equal(200)
+			expect(response.body).to.have.property('token')
+			authToken = response.body.token
+		})
+		NewApiClient.createBooking(newBooking)
+			.then((response) => {
+				bookingId = response.body.bookingid
+			})
+			.then(() => {
+				NewApiClient.getBookingIds().then(function (response) {
+					expect(response.status).to.equal(200)
+					expect(response.body).to.be.an('array')
+					cy.log('getting: ').then(function () {
+						cy.log('>>>>>>' + bookingId)
+					})
+				})
+				NewApiClient.getBookingByID(bookingId)
+				NewApiClient.updateBooking(
+					bookingId,
+					updatedBookingData,
+					authToken,
+				).then((response) => {
+					expect(response.status).to.equal(200)
+					expect(response.body.firstname).to.equal(
+						updatedBookingData.firstname,
+					)
+					expect(response.body.lastname).to.equal(
+						updatedBookingData.lastname,
+					)
+					expect(response.body.totalprice).to.equal(
+						updatedBookingData.totalprice,
+					)
+					expect(response.body.depositpaid).to.equal(
+						updatedBookingData.depositpaid,
+					)
+					expect(response.body.additionalneeds).to.equal(
+						updatedBookingData.additionalneeds,
+					)
+				})
+				NewApiClient.partialUpdateBooking(
+					bookingId,
+					partialUpdatedBookingData,
+					authToken,
+				).then((response) => {
+					expect(response.body.totalprice).to.equal(
+						partialUpdatedBookingData.totalprice,
+					)
+					expect(response.status).to.equal(200)
+				})
+				NewApiClient.deleteBooking(
+					bookingId,
+					partialUpdatedBookingData,
+					authToken,
+				).then((response) => {
+					expect(response.status).to.equal(201)
+				})
+			})
 	})
 
 	before(() => {
 		cy.request({
 			method: 'POST',
-			url: baseUrlAPI('/auth'),
+			url: NewApiClient.baseUrlAPI('/auth'),
 			body: {
 				username: 'admin',
 				password: 'password123',
@@ -45,7 +98,7 @@ describe('Restful Booker API Tests', () => {
 	it('Create Booking', () => {
 		cy.request({
 			method: 'POST',
-			url: baseUrlAPI('/booking'),
+			url: NewApiClient.baseUrlAPI('/booking'),
 			body: newBooking,
 		}).then((response) => {
 			expect(response.status).to.equal(200)
@@ -79,7 +132,7 @@ describe('Restful Booker API Tests', () => {
 	it('Get BookingIds', () => {
 		cy.request({
 			method: 'GET',
-			url: baseUrlAPI('/booking'),
+			url: NewApiClient.baseUrlAPI('/booking'),
 		}).then((response) => {
 			expect(response.status).to.equal(200)
 			expect(response.body).to.be.an('array')
@@ -92,7 +145,7 @@ describe('Restful Booker API Tests', () => {
 	it('Get Booking by ID', () => {
 		cy.request({
 			method: 'GET',
-			url: baseUrlAPI(`/booking/${bookingId}`),
+			url: NewApiClient.baseUrlAPI(`/booking/${bookingId}`),
 		}).then((response) => {
 			expect(response.status).to.equal(200)
 			expect(response.body.firstname).to.eq(newBooking.firstname)
@@ -106,7 +159,7 @@ describe('Restful Booker API Tests', () => {
 	it('Update Booking', () => {
 		cy.request({
 			method: 'PUT',
-			url: baseUrlAPI(`/booking/${bookingId}`),
+			url: NewApiClient.baseUrlAPI(`/booking/${bookingId}`),
 			body: updatedBookingData,
 			headers: {
 				Cookie: `token= ${authToken}`,
@@ -137,7 +190,7 @@ describe('Restful Booker API Tests', () => {
 	it('Partial Update Booking', () => {
 		cy.request({
 			method: 'PATCH',
-			url: baseUrlAPI(`/booking/${bookingId}`),
+			url: NewApiClient.baseUrlAPI(`/booking/${bookingId}`),
 			body: partialUpdatedBookingData,
 			headers: {
 				Cookie: `token= ${authToken}`,
@@ -157,7 +210,7 @@ describe('Restful Booker API Tests', () => {
 	it('Delete Booking', () => {
 		cy.request({
 			method: 'DELETE',
-			url: baseUrlAPI(`/booking/${bookingId}`),
+			url: NewApiClient.baseUrlAPI(`/booking/${bookingId}`),
 			headers: {
 				Cookie: `token= ${authToken}`,
 				Authorisation: `Bearer ${authToken}`,
