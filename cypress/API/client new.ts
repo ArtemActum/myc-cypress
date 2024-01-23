@@ -1,54 +1,91 @@
-// import {
-// 	newBooking,
-// 	updatedBookingData,
-// 	partialUpdatedBookingData,
-// } from './testData'
-
 class NewApiClient {
 	authToken: string
 	bookingId: number
 
+	public baseUrlAPI(path: string) {
+		return `https://restful-booker.herokuapp.com${path}`
+	}
+
 	// Client Methods
-	public createBooking() {
-		const newBooking = {
-			firstname: 'John',
-			lastname: 'Doe',
-			totalprice: 200,
-			depositpaid: true,
-			bookingdates: {
-				checkin: '2023-11-01',
-				checkout: '2023-11-05',
-			},
-			additionalneeds: 'Breakfast',
-		}
-		cy.request({
-			url: 'https://restful-booker.herokuapp.com/booking',
+	public createToken(body: object): Cypress.Chainable<Cypress.Response<any>> {
+		return cy.request({
+			url: this.baseUrlAPI('/auth'),
 			method: 'POST',
-			body: newBooking,
-		}).then(function (response) {
-			this.bookingId = response.body.bookingid
+			body: body,
 		})
 	}
 
-	public getBookingIds() {
-		cy.request({
-			url: 'https://restful-booker.herokuapp.com/booking',
+	public createBooking(
+		body: object,
+	): Cypress.Chainable<Cypress.Response<any>> {
+		return cy.request({
+			url: this.baseUrlAPI('/booking'),
+			method: 'POST',
+			body: body,
+		})
+	}
+
+	public getBookingIds(): Cypress.Chainable<Cypress.Response<any>> {
+		return cy.request({
+			url: this.baseUrlAPI(`/booking`),
 			method: 'GET',
-		}).then(function (response) {
-			expect(response.status).to.equal(200)
-			expect(response.body).to.be.an('array')
-			cy.log('getting: ').then(function () {
-				cy.log('>>>>>>' + this.bookingId)
+		})
+	}
+
+	public getBookingByID(
+		bookingId: number,
+	): Cypress.Chainable<Cypress.Response<any>> {
+		return cy
+			.request({
+				url: this.baseUrlAPI(`/booking/` + bookingId),
+				method: 'GET',
 			})
+			.then((response) => {
+				expect(response.status).to.equal(200)
+			})
+	}
+
+	public updateBooking(
+		bookingId: number,
+		body: object,
+		authToken: string,
+	): Cypress.Chainable<Cypress.Response<any>> {
+		return cy.request({
+			url: this.baseUrlAPI(`/booking/` + bookingId),
+			method: 'PUT',
+			body: body,
+			headers: {
+				Cookie: `token =` + authToken,
+				Accept: `application/json`,
+			},
 		})
 	}
 
-	public getBookingByID() {
-		cy.request({
-			url: `https://restful-booker.herokuapp.com/booking/${this.bookingId}`,
-			method: 'GET',
-		}).then((response) => {
-			expect(response.status).to.equal(200)
+	public partialUpdateBooking(
+		bookingId: number,
+		body: object,
+		authToken: string,
+	): Cypress.Chainable<Cypress.Response<any>> {
+		return cy.request({
+			url: this.baseUrlAPI(`/booking/` + bookingId),
+			method: 'PATCH',
+			body: body,
+			headers: {
+				Cookie: `token =` + authToken,
+				Accept: `application/json`,
+			},
+		})
+	}
+
+	public deleteBooking(bookingId: number, body: object, authToken: string) {
+		return cy.request({
+			url: this.baseUrlAPI(`/booking/` + bookingId),
+			method: 'DELETE',
+			body: body,
+			headers: {
+				Cookie: `token =` + authToken,
+				Accept: `application/json`,
+			},
 		})
 	}
 }
