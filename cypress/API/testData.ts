@@ -25,3 +25,8 @@ export const updatedBookingData = {
 export const partialUpdatedBookingData = {
 	totalprice: 3000,
 }
+
+export const auth = {
+	username: 'admin',
+	password: 'password123',
+}
