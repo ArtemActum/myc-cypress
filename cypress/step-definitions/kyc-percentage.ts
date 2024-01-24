@@ -6,11 +6,11 @@ const myChrisities = new MyChrisities()
 Then(
 	'I am able to see {int}% complete in the progress bar message.',
 	(percentage?: number) => {
-		myChrisities.KYCheaderComponent().should('be.visible') 
+		myChrisities.KYCheaderComponent().should('be.visible')
 		myChrisities.myAccountProgressBarTextIncludes(percentage)
 	},
 )
 
 Then('I am not able to see the KYC progress bar.', () => {
-	myChrisities.myAccountProgressBarText().should('not.exist')
+	myChrisities.KYCheaderComponent().should('not.visible')
 })
