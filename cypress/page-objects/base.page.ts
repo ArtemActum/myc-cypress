@@ -32,9 +32,7 @@ export default class BasePage {
 	}
 
 	public errorMessage() {
-		return cy.get(
-			'.align-items-center.d-inline-flex.mb-5 > .chr-color-red-alert.chr-label.content-zone',
-		)
+		return cy.get('.align-items-center.mb-5 > .chr-label')
 	}
 
 	public tradChineseLink() {
