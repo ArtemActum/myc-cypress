@@ -10,6 +10,7 @@ export default defineConfig({
 		defaultCommandTimeout: 15000,
 		viewportWidth: 1920,
 		viewportHeight: 1080,
+		projectId: 'g9n3oo',
 		async setupNodeEvents(
 			on: Cypress.PluginEvents,
 			config: Cypress.PluginConfigOptions,
