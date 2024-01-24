@@ -13,7 +13,7 @@ Feature: Account drop down
 
     Examples:
       | email                           | validpassword | initials | name                                                          | account  |
-      | int-tw2-20221220-04@yopmail.com | Test1234      | MALS     | Miss Amy Louise Sample                                        | 10622848 |
+      | tw2-04@yopmail.com              | Test1234      | MALS     | Miss Amy Louise Sample                                        | 10622848 |
       | int-tw2-20221220-06@yopmail.com | Test1234      | FT       | Fawncoxjanefeliciawildakarennn Tomlinsonannableweberhowellhal | 10622792 |
 
   Scenario: Account drop down not shown
