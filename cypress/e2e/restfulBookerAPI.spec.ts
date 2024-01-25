@@ -1,11 +1,11 @@
 import Ajv from 'ajv'
-import NewApiClient from '../API/client new'
+import NewApiClient from '../API/clients/client new'
 import {
-	newBooking,
-	updatedBookingData,
-	partialUpdatedBookingData,
-	auth,
-} from '../API/testData'
+	NewBooking,
+	UpdatedBookingData,
+	PartialUpdatedBookingData,
+	Auth,
+} from '../API/booking.request'
 import {
 	schemaCreateBooking,
 	schemaGetBooking,
@@ -19,13 +19,13 @@ describe('Restful Booker API Tests', () => {
 	const ajv = new Ajv()
 
 	it('API restful booker collection', () => {
-		//status: In progress
-		NewApiClient.createToken(auth).then(function (response) {
+		NewApiClient.createToken(Auth).then(function (response) {
 			expect(response.status).to.equal(200)
 			expect(response.body).to.have.property('token')
+			expect(response.body.token).to.not.be.undefined
 			authToken = response.body.token
 		})
-		NewApiClient.createBooking(newBooking)
+		NewApiClient.createBooking(NewBooking)
 			.then((response) => {
 				bookingId = response.body.bookingid
 			})
@@ -40,39 +40,39 @@ describe('Restful Booker API Tests', () => {
 				NewApiClient.getBookingByID(bookingId)
 				NewApiClient.updateBooking(
 					bookingId,
-					updatedBookingData,
+					UpdatedBookingData,
 					authToken,
 				).then((response) => {
 					expect(response.status).to.equal(200)
 					expect(response.body.firstname).to.equal(
-						updatedBookingData.firstname,
+						UpdatedBookingData.firstname,
 					)
 					expect(response.body.lastname).to.equal(
-						updatedBookingData.lastname,
+						UpdatedBookingData.lastname,
 					)
 					expect(response.body.totalprice).to.equal(
-						updatedBookingData.totalprice,
+						UpdatedBookingData.totalprice,
 					)
 					expect(response.body.depositpaid).to.equal(
-						updatedBookingData.depositpaid,
+						UpdatedBookingData.depositpaid,
 					)
 					expect(response.body.additionalneeds).to.equal(
-						updatedBookingData.additionalneeds,
+						UpdatedBookingData.additionalneeds,
 					)
 				})
 				NewApiClient.partialUpdateBooking(
 					bookingId,
-					partialUpdatedBookingData,
+					PartialUpdatedBookingData,
 					authToken,
 				).then((response) => {
 					expect(response.body.totalprice).to.equal(
-						partialUpdatedBookingData.totalprice,
+						PartialUpdatedBookingData.totalprice,
 					)
 					expect(response.status).to.equal(200)
 				})
 				NewApiClient.deleteBooking(
 					bookingId,
-					partialUpdatedBookingData,
+					PartialUpdatedBookingData,
 					authToken,
 				).then((response) => {
 					expect(response.status).to.equal(201)
@@ -99,27 +99,27 @@ describe('Restful Booker API Tests', () => {
 		cy.request({
 			method: 'POST',
 			url: NewApiClient.baseUrlAPI('/booking'),
-			body: newBooking,
+			body: NewBooking,
 		}).then((response) => {
 			expect(response.status).to.equal(200)
 			expect(response.body.booking.firstname).to.equal(
-				newBooking.firstname,
+				NewBooking.firstname,
 			)
-			expect(response.body.booking.lastname).to.equal(newBooking.lastname)
+			expect(response.body.booking.lastname).to.equal(NewBooking.lastname)
 			expect(response.body.booking.totalprice).to.equal(
-				newBooking.totalprice,
+				NewBooking.totalprice,
 			)
 			expect(response.body.booking.depositpaid).to.equal(
-				newBooking.depositpaid,
+				NewBooking.depositpaid,
 			)
 			expect(response.body.booking.bookingdates.checkin).to.equal(
-				newBooking.bookingdates.checkin,
+				NewBooking.bookingdates.checkin,
 			)
 			expect(response.body.booking.bookingdates.checkout).to.equal(
-				newBooking.bookingdates.checkout,
+				NewBooking.bookingdates.checkout,
 			)
 			expect(response.body.booking.additionalneeds).to.equal(
-				newBooking.additionalneeds,
+				NewBooking.additionalneeds,
 			)
 			expect(response.body).to.have.property('bookingid')
 			bookingId = response.body.bookingid
@@ -148,8 +148,8 @@ describe('Restful Booker API Tests', () => {
 			url: NewApiClient.baseUrlAPI(`/booking/${bookingId}`),
 		}).then((response) => {
 			expect(response.status).to.equal(200)
-			expect(response.body.firstname).to.eq(newBooking.firstname)
-			expect(response.body.lastname).to.eq(newBooking.lastname)
+			expect(response.body.firstname).to.eq(NewBooking.firstname)
+			expect(response.body.lastname).to.eq(NewBooking.lastname)
 			const validate = ajv.compile(schemaGetBooking)
 			const isValid = validate(response.body)
 			expect(isValid).to.be.true
@@ -160,7 +160,7 @@ describe('Restful Booker API Tests', () => {
 		cy.request({
 			method: 'PUT',
 			url: NewApiClient.baseUrlAPI(`/booking/${bookingId}`),
-			body: updatedBookingData,
+			body: UpdatedBookingData,
 			headers: {
 				Cookie: `token= ${authToken}`,
 				Authorisation: `Bearer ${authToken}`,
@@ -169,17 +169,17 @@ describe('Restful Booker API Tests', () => {
 		}).then((response) => {
 			expect(response.status).to.equal(200)
 			expect(response.body.firstname).to.equal(
-				updatedBookingData.firstname,
+				UpdatedBookingData.firstname,
 			)
-			expect(response.body.lastname).to.equal(updatedBookingData.lastname)
+			expect(response.body.lastname).to.equal(UpdatedBookingData.lastname)
 			expect(response.body.totalprice).to.equal(
-				updatedBookingData.totalprice,
+				UpdatedBookingData.totalprice,
 			)
 			expect(response.body.depositpaid).to.equal(
-				updatedBookingData.depositpaid,
+				UpdatedBookingData.depositpaid,
 			)
 			expect(response.body.additionalneeds).to.equal(
-				updatedBookingData.additionalneeds,
+				UpdatedBookingData.additionalneeds,
 			)
 			const validate = ajv.compile(schemaGetBooking)
 			const isValid = validate(response.body)
@@ -191,14 +191,14 @@ describe('Restful Booker API Tests', () => {
 		cy.request({
 			method: 'PATCH',
 			url: NewApiClient.baseUrlAPI(`/booking/${bookingId}`),
-			body: partialUpdatedBookingData,
+			body: PartialUpdatedBookingData,
 			headers: {
 				Cookie: `token= ${authToken}`,
 				Authorisation: `Bearer ${authToken}`,
 			},
 		}).then((response) => {
 			expect(response.body.totalprice).to.equal(
-				partialUpdatedBookingData.totalprice,
+				PartialUpdatedBookingData.totalprice,
 			)
 			expect(response.status).to.equal(200)
 			const validate = ajv.compile(schemaGetBooking)
