@@ -4,7 +4,7 @@ import {
 	GetBookingIds,
 	PartialUpdatedBookingData,
 	getBookingByID,
-} from '../bookings.response'
+} from '../booking.response'
 
 class NewApiClient {
 	authToken: string
