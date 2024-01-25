@@ -8,6 +8,7 @@
 		"test:mobile": "cypress open --config viewportWidth=375 --config viewportHeight=667",
 		"test:tablet": "cypress open --config viewportWidth=1024 --config viewportHeight=768",
 		"test:desktop": "cypress open --config viewportWidth=1920 --config viewportHeight=1080",
+		"test:cloud": "cypress open --record --key ea3fd709-526e-4deb-b7a2-c187ed7f4d52",
 		"lint": "eslint --fix --ext .js,.jsx ."
 	},
 	"author": "",
@@ -23,7 +24,7 @@
 		"prettier": "3.0.3",
 		"typescript": "5.2.2"
 	},
-	"cypress-cucumber-preprocessor": { 
+	"cypress-cucumber-preprocessor": {
 		"stepDefinitions": [
 			"cypress/e2e/[filepath]/**/*.{js,ts}",
 			"cypress/e2e/[filepath].{js,ts}",
