@@ -16,8 +16,10 @@ describe('Restful Booker API Tests', () => {
 	let authToken: string
 	let bookingId: number
 
+	//for schema checking
 	const ajv = new Ajv()
 
+	// test with whole collection
 	it('API restful booker collection', () => {
 		NewApiClient.createToken(Auth).then(function (response) {
 			expect(response.status).to.equal(200)
@@ -80,6 +82,7 @@ describe('Restful Booker API Tests', () => {
 			})
 	})
 
+	//tests written without client.ts
 	before(() => {
 		cy.request({
 			method: 'POST',
