@@ -14,7 +14,7 @@ This repository contains the code for the Cypress project. The project aims to d
 ## Tests written for:
 - Home page (language switcher, search bar)
 - My account page (login, account drop down, KYC progress bar)
-- 
+  
 ![image](https://github.com/ArtemActum/myc-cypress/assets/102807433/d0d068ad-070d-4ed4-8257-1620f7c4717f)
 
 # Installation
